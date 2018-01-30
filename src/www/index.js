@@ -6,12 +6,14 @@ import {BrowserRouter, Route, Link, Switch, Redirect} from 'react-router-dom';
 import RouterPage from './../stage/ReactRouter4Base';
 import ReactSpecifically from './../stage/ReactSpecifically';
 import CurryingModule from './../stage/CurryingModule';
+import ImmutabilityHelper from './../stage/ImmutabilityHelper';
 
 const PrimaryLayout = () => <switch>
     <Route path="/" exact={true} component={HomePage} />
     <Route path="/ReactRouter4" component={RouterPage} />
     <Route path="/ReactSpecifically" component={ReactSpecifically} />
     <Route path="/CurryingModule" component={CurryingModule} />
+    <Route path="/immutability-helper" component={ImmutabilityHelper} />
 </switch>;
 
 const HomePage = () => <div>
@@ -25,6 +27,9 @@ const HomePage = () => <div>
         </li>
         <li>
             <Link to="/CurryingModule">Currying and Partial Application: 柯里化和偏函数应用</Link>
+        </li>
+        <li>
+            <Link to="/immutability-helper">immutability-helper</Link>
         </li>
     </ul>
 </div>;
