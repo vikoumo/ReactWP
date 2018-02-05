@@ -5,9 +5,9 @@ const yellow = colors[3];
 // 这些变量或者函数只能在button里面看得到，除非被暴露出去。
 // module.exports会把后面的当成一个组件暴露出去
 module.exports = function(color, label) {
-    color = color || yellow;
-    label = label || 'button';
-    const button = `<button style="color:${color}">${label}</button>`;
-    // console.log(document.querySelector('#JS').childNodes);
-    document.querySelector('#JS').childNodes[1].innerHTML = button;
+  color = color || yellow;
+  label = label || 'button';
+  const button = `<button style="color:${color}">${label}</button>`;
+  // console.log(document.querySelector('#JS').childNodes);
+  document.querySelector('#JS').childNodes[1].innerHTML = button;
 };

@@ -40,7 +40,7 @@ module.exports = {
     'dot-location': ['error', 'property'],
     'eqeqeq': ['error', 'smart'],
     'eol-last': 'error',
-    'indent': ['error', 4, {SwitchCase: 1}],
+    'indent': ['error', 2, {SwitchCase: 1}],
     'id-blacklist': ['error', 'e'],
     'jsx-quotes': ['error', 'prefer-double'],
     'keyword-spacing': 'error',
