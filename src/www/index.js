@@ -3,10 +3,11 @@ import {render} from 'react-dom';
 // react-router
 import {BrowserRouter, Route, Link, Switch, Redirect} from 'react-router-dom';
 // demo
-import RouterPage from './../stage/ReactRouter4Base';
-import ReactSpecifically from './../stage/ReactSpecifically';
-import CurryingModule from './../stage/CurryingModule';
-import ImmutabilityHelper from './../stage/ImmutabilityHelper';
+import RouterPage from '@/stage/ReactRouter4Base';
+import ReactSpecifically from '@/stage/ReactSpecifically';
+import CurryingModule from '@/stage/CurryingModule';
+import ImmutabilityHelper from '@/stage/ImmutabilityHelper';
+import Decorator from '@/stage/Decorator';
 
 const PrimaryLayout = () => <switch>
     <Route path="/" exact={true} component={HomePage} />
@@ -14,6 +15,7 @@ const PrimaryLayout = () => <switch>
     <Route path="/ReactSpecifically" component={ReactSpecifically} />
     <Route path="/CurryingModule" component={CurryingModule} />
     <Route path="/immutability-helper" component={ImmutabilityHelper} />
+    <Route path="/decorator" component={Decorator} />
 </switch>;
 
 const HomePage = () => <div>
@@ -30,6 +32,9 @@ const HomePage = () => <div>
         </li>
         <li>
             <Link to="/immutability-helper">immutability-helper</Link>
+        </li>
+        <li>
+            <Link to="/decorator">decorator</Link>
         </li>
     </ul>
 </div>;
