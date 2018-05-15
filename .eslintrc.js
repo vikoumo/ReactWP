@@ -8,7 +8,10 @@ module.exports = {
     node: true,
   },
   // 扩展配置文件
-  extends: 'eslint:recommended',
+  extends: [
+    'airbnb-base',
+    'plugin:vue/recommended',
+  ],
   parser: 'babel-eslint', // EsLint默认使用esprima做脚本解析，也可以切换成babel-eslint解析
   // 指定解析器选项
   parserOptions: { //EsLint通过parserOptions，允许指定校验的ecma的版本，及ecma的一些特性
@@ -24,6 +27,7 @@ module.exports = {
     'react'
   ],
   rules: {
+    'babel/object-curly-spacing': 'off',
     'no-console':['warn'],//open after done coding
     'array-bracket-spacing': ['error', 'never'],
     'arrow-spacing': 'error',
