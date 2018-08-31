@@ -6,7 +6,7 @@
   "scripts": {
     "init": "sh ./init.sh",
     "start": "webpack-dev-server --config webpack-dev-server.config.js",
-    "build": "webpack --config webpack-dev-server.config.js"
+    "build": "webpack --config webpack-production.config.js"
   },
   "keywords": [],
   "author": "cc",

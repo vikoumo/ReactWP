@@ -28,7 +28,7 @@ const config = {
      */
   },
   //通过将 mode 参数设置为 development, production 或 none，可以启用对应环境下 webpack 内置的优化。
-  mode: 'none',
+  // mode: 'none',
   resolve: {
     // 扩展名
     extensions: ['.js', '.css', '.jsx'],
@@ -36,22 +36,21 @@ const config = {
       '@': path.resolve(__dirname, './src'),
     },
   },
-  devtool: 'eval',
+  devtool: 'source-map',
   // Server Configuration options
   devServer: {
     contentBase: 'src/www', // 本地服务器在哪个目录搭建页面，一般我们在当前目录即可； =》www下面的文件都可以映射到根目录下面
-    // devtool: 'eval', // source mapping style
     // node: {
     //     console: true,
     // },
-    // debug: true,
-    hot: true, // 热替换 => 重新加载改变的部分。和inline一起开就是先重新加载改变的部分，HRM失败则刷新页面。
+    stats: "errors-only", //表示编译的时候shell上的输出内容只打印错误
+    hot: true, 
+    // 热替换 => 重新加载改变的部分。和inline一起开就是先重新加载改变的部分，HRM失败则刷新页面。=> 热替换的开关，是true了会去找HRM(HotModuleReplacementPlugin => 真正有局部热更新作用的插件)
     inline: true, // 热加载 => 刷新浏览器
     port: 9090, // Port Number
     host:'0.0.0.0', //此时localhost:9090和0.0.0.0:9090都能访问成功
     overlay: true,//这个配置属性用来在编译出错的时候，在浏览器页面上显示错误，默认是false，可设置为true
     https: true, // served over HTTP/2 with HTTPS
-    host: 'localhost', // Change to '0.0.0.0' for external facing server
     historyApiFallback: true, // 当我们搭建spa应用时非常有用，它使用的是HTML5 History Api，任意的跳转或404响应可以指向 index.html 页面；
     // proxy: {
     //     // 反向代理
@@ -75,7 +74,7 @@ const config = {
       hash: true,
       template: path.join(__dirname, '/src/www/index.html'),
     }),
-    // Enables Hot Modules Replacement
+    // 真正有局部热更新作用的插件HRM
     new webpack.HotModuleReplacementPlugin(),
   ],
   //loader 被用于转换某些类型的模块
@@ -84,6 +83,11 @@ const config = {
       // 去监听以.jsx或者.js结尾的
       test: /(\.jsx|\.js)$/,
       // 加载器 React-hot loader
+      /** babel原理 =>
+       * 一个app.js文件，运行webpack，webpack通过配置找到处理.js类型的loader，就是配置的babel-loader，
+       * 然后loader把webpack交给他的文件转交给core去处理，core开始分析代码，解析语法树，把结果交给所有配置的插件，
+       * 最后所有的插件都处理完了之后，再把处理完的代码交还给loader，再交还给webpack，webpack再去找下一个loader
+       */
       loaders: ['react-hot-loader', 'babel-loader?cacheDirectory=true'],
       // query: {
       //     // babel
