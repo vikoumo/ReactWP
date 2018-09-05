@@ -91,15 +91,7 @@ const config = {
       // 去监听以.jsx或者.js结尾的
       test: /(\.jsx|\.js)$/,
       // 加载器 React-hot loader
-      /** babel原理 =>
-       * 一个app.js文件，运行webpack，webpack通过配置找到处理.js类型的loader，就是配置的babel-loader，
-       * 然后loader把webpack交给他的文件转交给core去处理，core开始分析代码，解析语法树，把结果交给所有配置的插件，
-       * 最后所有的插件都处理完了之后，再把处理完的代码交还给loader，再交还给webpack，webpack再去找下一个loader,顺序是从右到左
-       */
       loaders: ['react-hot-loader', 'babel-loader?cacheDirectory=true'],
-      //babel-loader的作用是实现对使用了ES2015+语法的.js文件进行处理。 
-      // babel-core的作用在于提供一系列api。当webpack使用babel-loader处理文件时，babel-loader实际上调用了babel-core的api
-      // babel-preset-env的作用是告诉babel使用哪种转码规则进行文件处理
       // query: {
       //     // babel
       //     presets: ['es2015', 'react'],
