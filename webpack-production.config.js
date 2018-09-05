@@ -5,8 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
     entry: [path.join(__dirname, '/src/app/app.js')],
-    // Render source-map file for final build
-    devtool: 'source-map',
+    devtool: 'eval',
     // output config
     output: {
         path: path.resolve(__dirname, 'build'), // Path of output file
@@ -14,17 +13,15 @@ const config = {
         hash: true,
     },
     plugins: [
-        // Define production build to allow React to strip out unnecessary checks
         // webpack 提供了 DefinePlugin 设置环境变量，后面会根据设置的不同环境变量决定是否打包压缩
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify('production'),
             },
         }),
-        // Minify the bundle
+        // 用来对js文件进行压缩，从而减小js文件的大小，加速load速度
         new webpack.optimize.UglifyJsPlugin({
             compress: {
-                // suppresses warnings, usually from module minification
                 warnings: false,
             },
         }),

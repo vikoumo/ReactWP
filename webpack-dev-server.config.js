@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
+const node_env = process.env.NODE_ENV || 'development';
 const config = {
   /**  
    * 单个入口写法 => entry : '....'
@@ -27,8 +28,8 @@ const config = {
      * 如果配置创建了多个单独的“chunk”，则应该使用占位符（替代）来确保每个文件具有唯一的名称。
      */
   },
-  //通过将 mode 参数设置为 development, production 或 none，可以启用对应环境下 webpack 内置的优化。
-  // mode: 'none',
+  //通过将 mode 参数设置为 development, production 或 none，可以启用对应环境下 webpack 内置的优化。production会对代码压缩，其他不会
+  mode: node_env,
   resolve: {
     // 扩展名
     extensions: ['.js', '.css', '.jsx'],
@@ -36,8 +37,8 @@ const config = {
       '@': path.resolve(__dirname, './src'),
     },
   },
+  // https://www.cnblogs.com/wangyingblog/p/7027540.html
   devtool: 'source-map',
-  // Server Configuration options
   devServer: {
     contentBase: 'src/www', // 本地服务器在哪个目录搭建页面，一般我们在当前目录即可； =》www下面的文件都可以映射到根目录下面
     // node: {
@@ -66,16 +67,23 @@ const config = {
   },
   // 插件可以用于执行范围更广的任务，插件的范围包括：打包优化、资源管理和注入环境变量。
   plugins: [
-    // 自动生成页面
+    // 在dist里生成h5页面
     new HtmlWebpackPlugin({
       inject: 'body',
       filename: 'index.html',
-      chunk: ['index'], // 分片
+      chunk: ['index'], // 如果是多入口，h5页面里面引用哪些js
       hash: true,
       template: path.join(__dirname, '/src/www/index.html'),
     }),
     // 真正有局部热更新作用的插件HRM
     new webpack.HotModuleReplacementPlugin(),
+    // webpack 提供了 DefinePlugin 设置环境变量，后面会根据设置的不同环境变量决定是否打包压缩
+    // definePlugin定义全局变量
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(node_env),
+      },
+    }),
   ],
   //loader 被用于转换某些类型的模块
   module: {
@@ -86,9 +94,12 @@ const config = {
       /** babel原理 =>
        * 一个app.js文件，运行webpack，webpack通过配置找到处理.js类型的loader，就是配置的babel-loader，
        * 然后loader把webpack交给他的文件转交给core去处理，core开始分析代码，解析语法树，把结果交给所有配置的插件，
-       * 最后所有的插件都处理完了之后，再把处理完的代码交还给loader，再交还给webpack，webpack再去找下一个loader
+       * 最后所有的插件都处理完了之后，再把处理完的代码交还给loader，再交还给webpack，webpack再去找下一个loader,顺序是从右到左
        */
       loaders: ['react-hot-loader', 'babel-loader?cacheDirectory=true'],
+      //babel-loader的作用是实现对使用了ES2015+语法的.js文件进行处理。 
+      // babel-core的作用在于提供一系列api。当webpack使用babel-loader处理文件时，babel-loader实际上调用了babel-core的api
+      // babel-preset-env的作用是告诉babel使用哪种转码规则进行文件处理
       // query: {
       //     // babel
       //     presets: ['es2015', 'react'],
@@ -97,7 +108,9 @@ const config = {
       exclude: [nodeModulesPath],
     }, {
       test: /\.css$/,
-      loaders: ['style', 'css'],
+      loaders: ['style-loader', 'css-loader'],
+      // css-loader: 加载.css文件
+      // style-loader:使用<style>将css-loader内部样式注入到我们的HTML页面
     },
     ],
   },
